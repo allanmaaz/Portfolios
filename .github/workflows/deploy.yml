@@ -1,5 +1,6 @@
 name: 🚀 Deploy to InfinityFree
 
+# Trigger this workflow whenever you push to the main branch
 on:
   push:
     branches:
@@ -7,23 +8,32 @@ on:
 
 jobs:
   ftp-deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest   # GitHub's virtual server environment
 
     steps:
+      # Step 1: Checkout your repository (download the latest code)
       - name: 📦 Checkout Repository
         uses: actions/checkout@v3
 
+      # Step 2: Upload everything via FTP to InfinityFree
       - name: 📤 Upload to InfinityFree via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: /htdocs/
-          local-dir: .
+          # These three values come from your GitHub Secrets
+          server: ${{ secrets.FTP_SERVER }}         # Example: ftpupload.net
+          username: ${{ secrets.FTP_USERNAME }}     # Example: if0_40391805
+          password: ${{ secrets.FTP_PASSWORD }}     # Your InfinityFree FTP password
+
+          # Folder paths
+          server-dir: /htdocs/                      # InfinityFree’s main public folder
+          local-dir: ./                             # Upload everything in your repo root (notice the slash!)
+
+          # Optional: Exclude unnecessary files/folders
           exclude: |
             **/.git*
             **/.github*
             **/README.md
             **/LICENSE
             **/node_modules/**
+            **/*.log
+            **/*.zip
