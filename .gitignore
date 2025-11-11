@@ -1,0 +1,17 @@
+# macOS system files
+.DS_Store
+
+# Git folders
+.git/
+.github/
+
+# Logs and temp files
+*.log
+*.tmp
+
+# Node modules or other large folders
+node_modules/
+
+# Optional backups
+*.zip
+*.bak
